@@ -1,0 +1,91 @@
+# This program is created by Raymond Moodley (raymond.moodley@dmu.ac.uk). It is not to be used for financial gain without the express consent of the author.
+# This program simulates the progress of a pandemic based on the "SIR" model
+# This program has 1 ouput
+
+
+#______________________________________________________________________________
+# This program is based on the model provided by Dr Aidan Findlater: https://archives.aidanfindlater.com/blog/2010/04/20/the-basic-sir-model-in-r/
+#______________________________________________________________________________
+
+
+#clear workspace
+rm(list=ls())
+
+#load libraries
+library(deSolve)
+
+
+##################INPUTS#####################################
+# This can be set to whatever value is required. For COVID-19 in the UK, R0 = 3.6, and 7 day infection period was assumed.
+Ro = 3.6
+gamma = 1/7
+
+
+
+
+# THE SIR MODEL#####################################
+
+sir <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    t = 1 # this is a flexibility parameter and typically not needed, hence set to 1.
+    dS <- -beta * S * I*t
+    dI <- beta * S * I*t - gamma * I
+    dR <- gamma * I
+    
+    return(list(c(dS, dI, dR)))
+  })
+}
+
+
+# We assume a step change in R0 after government interventions e.g. Day 24 lockdown in UK for COVID-19
+
+
+init <- c(S = 0.999998, I = 0.000002, R=0.0) # initial parameters
+beta = Ro*gamma/init[1]
+parameters <- c(gamma, beta = beta)
+times <- seq(0, 23, by = 1) #23 days as per COVID-19 lockdown in UK - first 23 days "unlocked"
+out <- as.data.frame(ode(y = init, times = times, func = sir, parms = parameters))
+out$time <- NULL
+
+out2 = out # holding parameter
+
+###########################
+
+########STEP change in R0
+Ro = 1.05
+init <- c(S = out2[24,1], I = out2[24,2], R=out2[24,3])
+beta = Ro*gamma/init[1]
+parameters <- c(gamma, beta = beta)
+times <- seq(25, 39, by = 1)
+out <- as.data.frame(ode(y = init, times = times, func = sir, parms = parameters))
+out$time <- NULL
+out3 = out # holding parameter
+
+#######################STEP change in R0
+
+Ro = 0.98
+init <- c(S = out3[15,1], I = out3[15,2], R=out3[15,3])
+beta = Ro*gamma/init[1]
+parameters <- c(gamma, beta = beta)
+times <- seq(41, 400, by = 1)
+out <- as.data.frame(ode(y = init, times = times, func = sir, parms = parameters))
+out$time <- NULL
+
+##############CONSOLIDATION of STEPS####################
+out3 = out3[-c(1),]
+out = out[-c(1),]
+out = rbind(out2, out3, out)
+times = times <- seq(1, 397, by = 1)
+
+################PLOT#############################
+matplot(times, out, type = "l", xlab = "Time", ylab = "Susceptibles and Recovereds", main = "SIR Model", lwd = 1, lty = 1, bty = "l", col = 2:5)
+legend(40, 0.7, c("Susceptibles", "Infecteds", "Recovereds"), pch = 1, col = 2:5)
+
+
+
+##################################OUTPUT FILE #######################################################
+
+write.csv(out, "[INSERT PATH HERE]/Out.csv", row.names = FALSE)
+
+############################################################################################################
+
