@@ -1,4 +1,4 @@
-Please note that the 4 files detailed below remain the property of Raymond Moodley, Fabio Caraffini, Francisco Chiclana, and Mario Gongora.
+Please note that the 5 files detailed below remain the property of Raymond Moodley, Fabio Caraffini, Francisco Chiclana, and Mario Gongora.
 These files are used to help organisations with the management of pandemics / epidemics.
 Using these for any purpose other than its intention or for financial gain is strictly prohibited without the consent of the owners. Please email raymond.moodley@dmu.ac.uk if you have any queries.
 The data fields in the input file Dataset_1 are obtained from publicly available sources, including Office of National Statistics, UK, UK Parliament, and UK Department for Education
@@ -27,4 +27,7 @@ Program to simulate SIR
 
 4. SOM_model_with-GB-map
 Program to create SOM 
+
+5. UK_Parl_Model_1_with FCM
+Program that includes FCM comparison with SOM
   
