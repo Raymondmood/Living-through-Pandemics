@@ -28,11 +28,11 @@ library(kohonen)
 ########### User inputs#######################################
 #####Loading Data
 
-party_colour= read.csv("C:/Users/raymond.moodley/OneDrive - Accenture/Desktop/COVID-19 Data/Files for FIGSHARE/party_colour.csv", 
+party_colour= read.csv("party_colour.csv", 
                        sep = ",", header = T, check.names = FALSE)
 
 ######read data set
-Covid_data = read.csv("C:/Users/raymond.moodley/OneDrive - Accenture/Desktop/COVID-19 Data/Files for FIGSHARE/Dataset_1.csv", 
+Covid_data = read.csv("Dataset_1.csv", 
                       sep = ",", header = T, check.names = FALSE)
 
 
@@ -145,7 +145,7 @@ leaflet(options=leafletOptions(
 ######################OUTPUTS#############################################
 
 # writing the ouput file
-write.csv(Covid_data_up, "C:/Users/raymond.moodley/OneDrive - Accenture/Desktop/COVID-19 Data/Files for FIGSHARE/Processed_File.csv", 
+write.csv(Covid_data_up, "Processed_File.csv", 
           row.names = FALSE)
 
 
@@ -238,7 +238,7 @@ leaflet(options=leafletOptions(
   mapOptions(zoomToLimits = "first")
 
 # writing the ouput file
-write.csv(Covid_data_up, "C:/Users/raymond.moodley/OneDrive - Accenture/Desktop/COVID-19 Data/Files for FIGSHARE/Processed_File_fcm.csv", 
+write.csv(Covid_data_up, "Processed_File_fcm.csv", 
           row.names = FALSE)
 
 
